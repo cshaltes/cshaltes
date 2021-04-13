@@ -1,0 +1,250 @@
+<html>
+<!--Sortable: http://bl.ocks.org/mbostock/3885705-->
+<!--Tip: http://bl.ocks.org/Caged/6476579-->
+<style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  width: 960px;
+}
+
+.axis text {
+  font: 8px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: green;
+}
+.bar:hover{
+ fill: orangered;
+}
+
+.x.axis path {
+  display: none;
+}
+
+label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+</style>
+<label><input type="checkbox"> Sort by total homeruns vs by team</label>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script>
+
+var margin = {top: 90, right: 20, bottom: 30, left: 40},
+    width = 1960 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+
+var formatPercent = d3.format("d");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1, 1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-17, -8])
+  .html(function(d) {
+    return "<strong> "+ d.letter + ": </strong> <span style='color:orange'>" + d.frequency + "</span>";
+  });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	var box = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+d3.tsv("teams.tsv", type, function(error, data) {
+
+  x.domain(data.map(function(d) { return d.letter; }));
+  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Home Runs");
+
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 3))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .text("Total Homeruns per team years 2014 & 2016");
+		
+	box.append("text")
+		.attr("y", margin.top)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("Most of my decisions were based off my own limitations, experience and knowledge on D3. I feel as if there was a real lack of  good resources for learning D3 in any proper way so I had to use what I could learn from examples online, and that was the main factor. For desing decisions I did go with a simple bar graph and that is because I personally");
+		
+	box.append("text")
+		.attr("y", margin.top+15)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text(" love the simplicity. Nothing represents my data better than a simple graph, and forcing some sort of chart or map would just make it more confusing. For that reason I didn't really consider too much into another style of graph. The main choices for me were in how to present the graph.I chose green as the base color because it is unoffensive");
+
+	box.append("text")
+		.attr("y", margin.top+30)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text(" and it reminds me of Basebal Fangraphs(the most popular website for baseball stats). For the hovering over a bar I chose a red/orange to really constrast the one you are looking at from the rest of the bars. A similar idea goes for the name of the team and the homerun total when hovering, the focus is to contrast from the black box for readability.");
+	box.append("text")
+		.attr("y", margin.top+45)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("I only did one sort option because I only needed to show the data 2 ways to show my point. So to start off it starts with the 2014 and 2016 data for each team next to each other so its easy to see how literally every team made a huge jump in homerun totals from 2014 to 2016. To summarize I went with a overall simplistic");
+	
+	box.append("text")
+		.attr("y", margin.top+60)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text(" design, both because that is what I value in reading graphs/information, and because this was my first experience with any web development and D3, with what felt like not many resources to learn so it was a very uphill battle. ");
+		
+		box.append("text")
+		.attr("y", margin.top+90)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("I did this project individually so I took on all the work. Like previously stated I had 0 experience with D3 or web development so this was a massive undertaking. Nearly every single aspect fo this project took me a long time. I didn't really keep track of the hours perfectly but I would guess it took me ~20 hours.");
+		
+		box.append("text")
+		.attr("y", margin.top+105)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("I few things that stick out to me is the hostign the website, even now as I type this i'm not sure I have the git website set up properly, thanks to my extremely limited git experience. Another thing is something as silly as this text. I could not get any text to work without breaking ym graph so I finally settled for ");
+		
+		box.append("text")
+		.attr("y", margin.top+120)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("a solution that is quite ugly on the backend. Funnily enough the part that took the least amount of time was probably the graph itself, this in thanks to there atleast being d3 code out there online that you can use and change to your need. The biggest take away for me was a working visualization.");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.letter); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.frequency); })
+      .attr("height", function(d) { return height - y(d.frequency); })
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+
+  d3.select("input").on("change", change);
+
+  var sortTimeout = setTimeout(function() {
+    d3.select("input").property("checked", true).each(change);
+  }, 2000);
+
+  function change() {
+    clearTimeout(sortTimeout);
+
+    // Copy-on-write since tweens are evaluated after a delay.
+    var x0 = x.domain(data.sort(this.checked
+        ? function(a, b) { return b.frequency - a.frequency; }
+        : function(a, b) { return d3.ascending(a.letter, b.letter); })
+        .map(function(d) { return d.letter; }))
+        .copy();
+
+    svg.selectAll(".bar")
+        .sort(function(a, b) { return x0(a.letter) - x0(b.letter); });
+
+    var transition = svg.transition().duration(500),
+        delay = function(d, i) { return i * 25; };
+
+    transition.selectAll(".bar")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.letter); });
+
+    transition.select(".x.axis")
+        .call(xAxis)
+      .selectAll("g")
+        .delay(delay);
+  }
+});
+
+  function type(d) {
+    d.frequency = +d.frequency;
+    return d;
+  }
+  
+   append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 3))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .text("fsdfsdfsdfsdfsdfsd");
+  
+  
+
+</script>
+</body>
+</html>
