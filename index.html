@@ -142,13 +142,13 @@ d3.tsv("teams.tsv", type, function(error, data) {
 		.attr("y", margin.top)
         .attr("text-anchor", "left")  
         .style("font-size", "12px") 
-        .text("Most of my decisions were based off my own limitations, experience and knowledge on D3. I feel as if there was a real lack of  good resources for learning D3 in any proper way so I had to use what I could learn from examples online, and that was the main factor. For desing decisions I did go with a simple bar graph and that is because I personally");
+        .text("Most of my decisions were based off my own limitations, experience and knowledge on D3. I feel as if there was a real lack of  good resources for learning D3 in any proper way so I had to use what I could learn from examples online, and that was the main factor. For design decisions I did go with a simple bar graph and that is because I personally");
 		
 	box.append("text")
 		.attr("y", margin.top+15)
         .attr("text-anchor", "left")  
         .style("font-size", "12px") 
-        .text(" love the simplicity. Nothing represents my data better than a simple graph, and forcing some sort of chart or map would just make it more confusing. For that reason I didn't really consider too much into another style of graph. The main choices for me were in how to present the graph.I chose green as the base color because it is unoffensive");
+        .text(" love the simplicity. Nothing represents my data better than a simple graph, and forcing some sort of chart or map would just make it more confusing. For that reason I didn't really consider too much into another style of visualization. The main choices for me were in how to present the graph. I chose green as the base color because it is unoffensive");
 
 	box.append("text")
 		.attr("y", margin.top+30)
@@ -177,13 +177,20 @@ d3.tsv("teams.tsv", type, function(error, data) {
 		.attr("y", margin.top+105)
         .attr("text-anchor", "left")  
         .style("font-size", "12px") 
-        .text("I few things that stick out to me is the hostign the website, even now as I type this i'm not sure I have the git website set up properly, thanks to my extremely limited git experience. Another thing is something as silly as this text. I could not get any text to work without breaking ym graph so I finally settled for ");
+        .text("I few things that stick out to me is the hosting the website, even now as I type this i'm not sure I have the git website set up properly, thanks to my extremely limited git experience. Another thing is something as silly as this text. I could not get any text to work without breaking my graph so I finally settled for ");
 		
 		box.append("text")
 		.attr("y", margin.top+120)
         .attr("text-anchor", "left")  
         .style("font-size", "12px") 
         .text("a solution that is quite ugly on the backend. Funnily enough the part that took the least amount of time was probably the graph itself, this in thanks to there atleast being d3 code out there online that you can use and change to your need. The biggest take away for me was a working visualization.");
+	
+	box.append("text")
+		.attr("y", margin.top+135)
+        .attr("text-anchor", "left")  
+        .style("font-size", "12px") 
+        .text("As an update to this time breakdown, the absolute longest thing for me to get taken care of was the hosting of the website. I had already spemt a few hours on it when I originally wrote this summary but since I spent another ~5 hours trying to figure out why it was not properly showing my graph. It was because of a reference to http when git requires https.");
+	
 
   svg.selectAll(".bar")
       .data(data)
